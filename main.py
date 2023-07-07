@@ -31,14 +31,14 @@ tails=[]
 
 puan=0
 
-scor=turtle.Turtle()
-scor.speed(0)
+score=turtle.Turtle()
+score.speed(0)
 
-scor.color('white')
-scor.penup()  # won't write any word on screen when head moving   
-scor.goto(0,260)
-scor.hideturtle()
-scor.write("Puan:{}".format(puan),align='center',font=('Arial',24,'normal','bold'))
+score.color('white')
+score.penup()  # won't write any word on screen when head moving   
+score.hideturtle()
+score.goto(0,260)
+score.write("Puan:{}".format(puan),align='center',font=('Arial',24,'normal','bold'))
 
 def move():
     
@@ -99,21 +99,15 @@ while True:
 
        tails=[]
        puan=0
-       scor.clear()
-       scor.write("Puan:{}".format(puan),align='center',font=('Arial',24,'normal','bold'))
+       speed=0.1
+       score.clear()
+       score.write("Puan:{}".format(puan),align='center',font=('Arial',24,'normal','bold'))
 
     if head.distance(food)<20:
         x=random.randint(-250,250)
         y=random.randint(-250,250)
         food.goto(x,y)
-
-        puan=puan+10
-        scor.clear()
-        scor.write("Puan:{}".format(puan),align='center',font=('Arial',24,'normal','bold'))
-
-
-        speed=speed- 0.001
-
+       
 
         newTail=turtle.Turtle()
         newTail.speed(0)
@@ -121,6 +115,13 @@ while True:
         newTail.color('lightgreen')
         newTail.penup()
         tails.append(newTail)
+
+        speed=speed- 0.001
+        puan=puan+10
+        score.clear()
+        score.write("Puan:{}".format(puan),align='center',font=('Arial',24,'normal','bold'))
+
+
 
     for i in range(len(tails)-1,0,-1):
         x= tails[i-1].xcor()
@@ -133,6 +134,18 @@ while True:
         tails[0].goto(x,y)      
 
     move()
+    for segment in tails:
+        if segment.distance(head)<20:
+            time.sleep(1)
+            head.goto(0,0)
+            head.direction="stop"
+            for segment in tails:
+                segment.goto(1000,1000)
+            tails=[]
+            puan=0
+            score.clear()
+            score.write("Puan:{}".format(puan),align='center',font=('Arial',24,'normal','bold'))
+            speed=0.15
     time.sleep(speed)    
 
 
